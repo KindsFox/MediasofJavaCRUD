@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta charset="UTF-8" />
+  <title>Update</title>
 </head>
 <body>
-$END$
+
+<form th:method="PATCH" th:action="@{/stock/{id}(id=${product.getId()})}" th:object="${product}">
+  <label for="name">Enter name: </label>
+  <input type="text" th:field="*{name}" id="name"/>
+  <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+  <br/>
+  <label for="description">Enter description: </label>
+  <input type="text" th:field="*{description}" id="description"/>
+  <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description Error</div>
+  <br/>
+  <label for="category">Enter category: </label>
+  <input type="text" th:field="*{category}" id="category"/>
+  <div style="color:red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category Error</div>
+  <br/>
+  <label for="price">Enter price: </label>
+  <input type="text" th:field="*{price}" id="price"/>
+  <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price Error</div>
+  <br/>
+  <label for="count">Enter count: </label>
+  <input type="text" th:field="*{count}" id="count"/>
+  <div style="color:red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">count Error</div>
+  <br/>
+  <input type="submit" value="Update!"/>
+</form>
+
 </body>
 </html>

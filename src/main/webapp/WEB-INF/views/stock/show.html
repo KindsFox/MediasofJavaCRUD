@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="ru" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Продукт</title>
+    <meta charset="UTF-8" />
+    <title>Products</title>
 </head>
+
 <body>
-<p th:text="${product.getName()}">VALUE</p>
+<p th:text="${'Name:' + product.getName()}">VALUE</p>
+<p th:text="${'Description:' + product.getDescription()}">VALUE</p>
+<p th:text="${'Category: ' + product.getCategory()}">VALUE</p>
+<p th:text="${'Price: ' + product.getPrice()">VALUE</p>
+<p th:text="${'Count: ' + product.getCount()}">VALUE</p>
 <p th:text="${product.getId()}">VALUE</p>
+
+<a th:href="@{/stock/{id}/edit(id=${product.getId()})}">Edit</a>
+
+<form th:method="DELETE" th:action="@{/stock/{id}(id=${product.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
 </body>
 </html>

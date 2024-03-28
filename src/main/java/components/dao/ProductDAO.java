@@ -1,29 +1,60 @@
-package ru.alishev.springcourse.dao;
+package components.dao;
 
-import ru.alishev.springcourse.models.Product;
+import components.models.Product;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Component
 public class ProductDAO {
-    private  static int PRODUCT_COUNT;
-    private List<Product> product;
 
-    {
-        product = new ArrayList<>();
+    private final SessionFactory sessionFactory;
 
-        product.add(new Product(++PRODUCT_COUNT, "Картошка"));
-        product.add(new Product(++PRODUCT_COUNT, "Гиря"));
+    @Autowired
+    public ProductDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
+    @Transactional(readOnly = true)
     public List<Product> index() {
-        return product;
+        Session session = sessionFactory.getCurrentSession();
+        List<Product> stock = session.createQuery("select p from Product p", Product.class)
+                .getResultList();
+        return stock;
     }
 
+    @Transactional(readOnly = true)
     public Product show(int id) {
-        return product.stream().filter(product -> product.getId() == id).findAny().orElse(null);
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Product.class, id);
     }
 
+    @Transactional
+    public void save(Product product) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(product);
+    }
+
+    @Transactional
+    public void update(int id, Product updatedProduct) {
+        Session session = sessionFactory.getCurrentSession();
+        Product productToBeUpdated = session.get(Product.class, id);
+
+        productToBeUpdated.setName(updatedProduct.getName());
+        productToBeUpdated.setDescription(updatedProduct.getDescription());
+        productToBeUpdated.setCategory(updatedProduct.getCategory());
+        productToBeUpdated.setPrice(updatedProduct.getPrice());
+        productToBeUpdated.setCount(updatedProduct.getCount());
+    }
+
+    @Transactional
+    public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(session.get(Product.class, id));
+    }
 }

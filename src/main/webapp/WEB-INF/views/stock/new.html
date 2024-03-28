@@ -1,14 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="ru" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Новый продукт</title>
+    <meta charset="UTF-8" />
+    <title>New product</title>
 </head>
 <body>
 
 <form th:method="POST" th:action="@{/stock}" th:object="${product}">
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</div>
+    <br/>
+    <label for="description">Enter description: </label>
+    <input type="text" th:field="*{description}" id="description"/>
+    <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description Error</div>
+    <br/>
+    <label for="category">Enter category: </label>
+    <input type="text" th:field="*{category}" id="category"/>
+    <div style="color:red" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category Error</div>
+    <br/>
+    <label for="price">Enter price: </label>
+    <input type="text" th:field="*{price}" id="price"/>
+    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">category price</div>
+    <br/>
+    <label for="count">Enter count: </label>
+    <input type="text" th:field="*{count}" id="count"/>
+    <div style="color:red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">category Error</div>
     <br/>
     <input type="submit" value="Create!"/>
 </form>
